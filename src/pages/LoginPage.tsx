@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -7,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Utilisateurs de démonstration
   const demoUsers = [
@@ -35,16 +36,16 @@ const LoginPage = () => {
       const user = demoUsers.find(u => u.email === email && u.password === password);
       
       if (user) {
-        // Stockage des données utilisateur
-        localStorage.setItem('currentUser', JSON.stringify({
+        // Utilisation du contexte d'authentification
+        const userData = {
           id: Math.floor(Math.random() * 1000),
           name: user.name,
           email: user.email,
           role: user.role,
           avatar: user.name.split(' ').map(n => n[0]).join('')
-        }));
+        };
         
-        // Redirection vers le dashboard
+        login(userData);
         navigate('/dashboard');
       } else {
         setError('Email ou mot de passe incorrect');
