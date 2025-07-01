@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/layout/Sidebar';
 import Dashboard from '@/components/dashboard/Dashboard';
-import ProjectsModule from '@/components/projects/ProjectsModule';
+import ProjectsModuleNew from '@/components/projects/ProjectsModuleNew';
 import TeamsModule from '@/components/teams/TeamsModule';
 import TasksModule from '@/components/tasks/TasksModule';
 import MessagesModule from '@/components/messages/MessagesModule';
@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
-  const { user, logout } = useAuth();
+  const { user, signOut, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,8 +25,8 @@ const Index = () => {
     }
   }, [user, navigate]);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await signOut();
     navigate('/');
   };
 
@@ -44,27 +44,39 @@ const Index = () => {
   const renderActiveModule = () => {
     if (!user) return null;
 
+    // Convert user profile to expected format for existing components
+    const currentUser = {
+      id: parseInt(user.id),
+      name: user.name,
+      email: user.email,
+      role: user.role
+    };
+
     switch (activeModule) {
       case 'dashboard':
-        return <Dashboard currentUser={user} />;
+        return <Dashboard currentUser={currentUser} />;
       case 'projects':
-        return <ProjectsModule currentUser={user} />;
+        return <ProjectsModuleNew currentUser={currentUser} />;
       case 'teams':
-        return <TeamsModule currentUser={user} />;
+        return <TeamsModule currentUser={currentUser} />;
       case 'tasks':
-        return <TasksModule currentUser={user} />;
+        return <TasksModule currentUser={currentUser} />;
       case 'messages':
-        return <MessagesModule currentUser={user} />;
+        return <MessagesModule currentUser={currentUser} />;
       case 'users':
-        return <UsersModule currentUser={user} />;
+        return <UsersModule currentUser={currentUser} />;
       case 'notifications':
-        return <NotificationsModule currentUser={user} />;
+        return <NotificationsModule currentUser={currentUser} />;
       case 'client':
-        return <ClientModule currentUser={user} />;
+        return <ClientModule currentUser={currentUser} />;
       default:
-        return <Dashboard currentUser={user} />;
+        return <Dashboard currentUser={currentUser} />;
     }
   };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Chargement...</div>;
+  }
 
   if (!user) {
     return null;
@@ -72,11 +84,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex w-full bg-gray-50">
-      <Sidebar 
-        activeModule={activeModule} 
-        setActiveModule={setActiveModule}
-        currentUser={user}
-      />
+        <Sidebar 
+          activeModule={activeModule} 
+          setActiveModule={setActiveModule}
+          currentUser={{
+            id: parseInt(user.id),
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }}
+        />
       <main className="flex-1 flex flex-col">
         {/* Header */}
         <div className="bg-white border-b border-gray-200 px-6 py-4">
@@ -90,7 +107,7 @@ const Index = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                  {user.avatar}
+                  {user.avatar || user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-medium">{user.name}</div>

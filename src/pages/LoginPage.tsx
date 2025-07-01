@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 
 const LoginPage = () => {
@@ -15,9 +15,9 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { signIn } = useAuth();
 
-  // Utilisateurs de démonstration
+  // Comptes de démonstration (vous devez d'abord créer ces comptes via signup)
   const demoUsers = [
     { email: 'admin@promanage.com', password: 'admin123', role: 'admin', name: 'Jean Dupont' },
     { email: 'chef.projet@promanage.com', password: 'chef123', role: 'chef_projet', name: 'Marie Martin' },
@@ -31,27 +31,19 @@ const LoginPage = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulation d'authentification
-    setTimeout(() => {
-      const user = demoUsers.find(u => u.email === email && u.password === password);
+    try {
+      const { error } = await signIn(email, password);
       
-      if (user) {
-        // Utilisation du contexte d'authentification
-        const userData = {
-          id: Math.floor(Math.random() * 1000),
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          avatar: user.name.split(' ').map(n => n[0]).join('')
-        };
-        
-        login(userData);
-        navigate('/dashboard');
+      if (error) {
+        setError(error.message || 'Email ou mot de passe incorrect');
       } else {
-        setError('Email ou mot de passe incorrect');
+        navigate('/dashboard');
       }
-      setIsLoading(false);
-    }, 1000);
+    } catch (err: any) {
+      setError('Une erreur est survenue lors de la connexion');
+    }
+    
+    setIsLoading(false);
   };
 
   return (
@@ -143,6 +135,15 @@ const LoginPage = () => {
                 </div>
               ))}
             </div>
+          </div>
+          
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Vous n'avez pas de compte ?{' '}
+              <Link to="/signup" className="text-purple-600 hover:text-purple-700 font-medium">
+                Créer un compte
+              </Link>
+            </p>
           </div>
         </Card>
 
