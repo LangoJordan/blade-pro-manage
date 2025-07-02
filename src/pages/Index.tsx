@@ -99,8 +99,8 @@ const Index = () => {
         <div className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-xl font-semibold text-gray-800">ProManage</h2>
-              <p className="text-sm text-gray-500">Système de gestion de projets</p>
+              <h2 className="text-xl font-semibold text-gray-800">Scrum Flow</h2>
+              <p className="text-sm text-gray-500">Gestion de projets agile</p>
             </div>
             
             {/* User info and logout */}

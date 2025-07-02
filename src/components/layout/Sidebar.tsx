@@ -32,14 +32,14 @@ const Sidebar = ({ activeModule, setActiveModule, currentUser }: SidebarProps) =
       {/* Logo et titre */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">P</span>
+          <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
+            <img src="/lovable-uploads/8066313b-a3a9-4925-b9d7-2704754b4394.png" alt="Scrum Flow" className="w-8 h-8 object-contain" />
           </div>
           <div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              ProManage
+              Scrum Flow
             </h1>
-            <p className="text-xs text-gray-500">Gestion de projets</p>
+            <p className="text-xs text-gray-500">Gestion agile</p>
           </div>
         </div>
       </div>

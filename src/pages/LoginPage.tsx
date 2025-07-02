@@ -52,11 +52,11 @@ const LoginPage = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">P</span>
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
+              <img src="/lovable-uploads/8066313b-a3a9-4925-b9d7-2704754b4394.png" alt="Scrum Flow" className="w-10 h-10 object-contain" />
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              ProManage
+              Scrum Flow
             </h1>
           </div>
           <p className="text-gray-600">Connectez-vous à votre compte</p>
@@ -138,11 +138,8 @@ const LoginPage = () => {
           </div>
           
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Vous n'avez pas de compte ?{' '}
-              <Link to="/signup" className="text-purple-600 hover:text-purple-700 font-medium">
-                Créer un compte
-              </Link>
+            <p className="text-xs text-gray-500">
+              L'inscription est réservée aux administrateurs
             </p>
           </div>
         </Card>

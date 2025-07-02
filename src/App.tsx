@@ -25,7 +25,14 @@ const App = () => (
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
+            <Route 
+              path="/signup" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <SignUpPage />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
             <Route 
               path="/dashboard" 
